@@ -3,8 +3,9 @@
 
 int main() 
 {
-	Network network(16, 0, 0, 2);
-	network.printNetwork();
+	Network network(16, 2, 5, 2);
+	//network.printNetwork();
+	network.feedForward();
 
 	system("pause");
 	return 0;

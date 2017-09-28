@@ -3,15 +3,28 @@
 Network::Network(int inputs, int nrOfLayers, int layerSize, int outputs) :
 	connections()
 {
+	srand(time(0));
+
 	// Add Neurons to each individual layer vector
-	input.resize(inputs, new Identity());
+	// Input layer plus bias
+	for (int i = 0; i < inputs; i++)
+		input.push_back(new Identity());
 	input.push_back(new Bias());
 	
-	hiddenLayers.resize(nrOfLayers, std::vector<Neuron*>(layerSize, new Sigmoid()));
-	for (int i = 0; i < hiddenLayers.size(); i++)
+	// Hidden layers plus bias
+	for (int i = 0; i < nrOfLayers; i++)
+	{
+		hiddenLayers.push_back(std::vector<Neuron*>());
+		for (int j = 0; j < layerSize; j++)
+		{
+			hiddenLayers[i].push_back(new Sigmoid());
+		}
 		hiddenLayers[i].push_back(new Bias());
+	}
 
-	output.resize(outputs, new Sigmoid());
+	// Output layer
+	for (int i = 0; i < outputs; i++)
+		output.push_back(new Sigmoid());
 
 	// Push all layers into one layer vector
 	layers.push_back(input);
@@ -26,16 +39,34 @@ Network::Network(int inputs, int nrOfLayers, int layerSize, int outputs) :
 
 Network::~Network()
 {
+	for (int i = 0; i < layers.size(); i++)
+	{
+		for (int j = 0; j < layers[i].size(); j++)
+		{
+			delete layers[i][j];
+		}
+	}
+	layers.clear();
+
+	while (!connections.empty())
+	{
+		delete connections.back();
+		connections.pop_back();
+	}
+
+	input.clear();
+	hiddenLayers.clear();
+	output.clear();
 }
 
 void Network::printNetwork()
 {
 	for (int i = 0; i < layers.size(); i++)
 	{
-		std::cout << "L" << i << ": " << std::endl;
+		std::cout << "Layer " << i << ": " << std::endl;
 		for (int j = 0; j < layers[i].size(); j++)
 		{
-			std::cout << "N" << j << ": ";// << layers[i][j]->getConnectionsFromL().size();
+			std::cout << "Neuron " << j << ": ";
 			for each (Connection *c in layers[i][j]->getConnectionsToR())
 			{
 				std::cout << c->weight << " ";
@@ -46,22 +77,49 @@ void Network::printNetwork()
 	}
 }
 
+void Network::feedForward()
+{
+	// Activate identity neurons
+	for (int i = 0; i < layers[0].size() - 1; i++)
+	{
+		layers[0][i]->activation((float)patternX[i]);
+	}
+
+	// Iterate through each layer beginning on the second
+	for (int i = 1; i < layers.size(); i++)
+	{
+		// Iterate through each neuron
+		for (int j = 0; j < layers[i].size(); j++)
+		{
+			// Transfer the summed outputs and weights from left layer 
+			// to activation input of right layer
+			float input = 0;
+			for each (Connection* c in layers[i][j]->getConnectionsFromL())
+			{
+				input += c->left->transfer() * c->weight;
+			}
+			layers[i][j]->activation(input);
+		}
+	}
+
+	for each (Neuron* neuron in layers.back())
+	{
+		std::cout << "Output: " << neuron->transfer() << std::endl;
+	}
+}
+
 void Network::connectLayer(std::vector<Neuron*> leftL, std::vector<Neuron*> rightL)
 {
 	for (int i = 0; i < leftL.size(); i++)
 	{
 		for (int j = 0; j < rightL.size(); j++)
 		{
+			float randomFloat = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 			Connection* c = new Connection(leftL[i], rightL[j]);
-			c->weight = j;
+			c->weight = randomFloat;
 			leftL[i]->addConnectionToR(c);
 			rightL[j]->addConnectionFromL(c);
-			connections.push_back(c); // Kommer jag behövas?
+			connections.push_back(c);
 		}
 	}
-}
-
-void Network::setupConnections()
-{
-
 }
