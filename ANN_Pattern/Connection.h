@@ -1,10 +1,14 @@
 #pragma once
-#include "Neuron.h"
 struct Connection
 {
 public:
+	Connection(Neuron *l, Neuron *r)
+	{
+		left = l;
+		right = r;
+	}
 	Neuron *left;
 	Neuron *right;
-	float weight;
+	float weight = 0;
 };
 
