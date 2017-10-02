@@ -10,5 +10,7 @@ public:
 	Neuron *left;
 	Neuron *right;
 	float weight = 0;
+	float delta = 0;
+	float newWeight = 0;
 };
 

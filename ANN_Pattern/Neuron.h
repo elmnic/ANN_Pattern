@@ -9,6 +9,9 @@ struct Neuron
 public:
 	virtual float activation(float input) = 0;
 	virtual float transfer() = 0;
+	virtual void setDelta(float newDelta) = 0;
+	virtual float getDelta() = 0;
+	virtual float getInput() = 0;
 	virtual void addConnectionFromL(Connection* left) = 0;
 	virtual void addConnectionToR(Connection* right) = 0;
 	virtual std::vector<Connection*> getConnectionsToR() = 0;
