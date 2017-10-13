@@ -9,8 +9,7 @@ public:
 	}
 	Neuron *left;
 	Neuron *right;
-	float weight = 0;
-	float delta = 0;
+	float weight = 0; // Weight between two nodes
 	float newWeight = 0;
 };
 

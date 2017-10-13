@@ -134,21 +134,17 @@ void Network::feedForward()
 		// Iterate through each neuron
 		for (int j = 0; j < layers[i].size(); j++)
 		{
+			Neuron* neuron = layers[i][j];
 			// Transfer the summed outputs and weights from left layer 
 			// to activation input of current layer
 			float input = 0;
-			for each (Connection* c in layers[i][j]->getConnectionsFromL())
+			for each (Connection* c in neuron->getConnectionsFromL())
 			{
 				input += c->left->transfer() * c->weight;
 			}
 			layers[i][j]->activation(input);
 		}
 	}
-
-	/*for each (Neuron* neuron in layers.back())
-	{
-		std::cout << "Output: " << neuron->transfer() << std::endl;
-	}*/
 }
 
 void Network::backpropagate()
@@ -177,7 +173,9 @@ void Network::backpropagate()
 		}
 	}
 	
+	// Output layer
 	/*****************************************/
+	// Hidden / input layer
 
 	// Step backwards through network and calc deltas
 	// Start from second to last layer

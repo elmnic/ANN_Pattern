@@ -45,10 +45,10 @@ private:
 									  0, 1, 1, 0,
 									  1, 0, 0, 1 };
 
-	std::vector<int> patternXBrokenExtra{ 1, 0, 0, 1,
-										  0, 1, 1, 0,
-										  0, 1, 1, 0,
-										  1, 0, 1, 0 };
+	std::vector<int> patternXBrokenExtra { 1, 0, 0, 1,
+										   0, 1, 1, 0,
+										   0, 1, 1, 0,
+										   1, 0, 1, 0 };
 
 	std::vector<int> patternO { 0, 1, 1, 0,
 								1, 0, 0, 1,
@@ -60,10 +60,10 @@ private:
 									  1, 1, 0, 1,
 									  0, 0, 1, 0 };
 
-	std::vector<int> patternOBrokenExtra{ 0, 1, 0, 0,
-										  1, 0, 1, 1,
-										  1, 0, 0, 1,
-										  0, 1, 1, 0 };
+	std::vector<int> patternOBrokenExtra { 0, 1, 0, 0,
+										   1, 0, 1, 1,
+										   1, 0, 0, 1,
+										   0, 1, 1, 0 };
 
 
 	std::vector<float> currentTarget;

@@ -13,12 +13,7 @@ int main()
 	{
 		network.feedForward();
 		network.backpropagate();
-		network.setPattern(i % 2);
-		//if (i > EPOCH / 2)
-		//{
-		//	// Broken X
-		//	network.setPattern(2);
-		//}
+		network.setPattern(i % 2); // Switch between pattern X and pattern X broken
 	}
 
 	// Pattern O
@@ -27,23 +22,18 @@ int main()
 	{
 		network.feedForward();
 		network.backpropagate();
-		network.setPattern(i % 2 + 2);
-		//if (i > EPOCH / 2)
-		//{
-		//	// Broken O
-		//	network.setPattern(3);
-		//}
+		network.setPattern(i % 2 + 2); // Switch between pattern O and pattern O broken
 	}
 
 	std::cout << "Pattern X broken:" << std::endl;
 	std::cout << "Target:\n1.0\n0.0" << std::endl;
-	network.setPattern(4);
+	network.setPattern(4); // Unused pattern during training
 	network.feedForward();
 	network.printOutput();
 
 	std::cout << "\nPattern O broken:" << std::endl;
 	std::cout << "Target:\n0.0\n1.0" << std::endl;
-	network.setPattern(5);
+	network.setPattern(5); // Unused pattern during training
 	network.feedForward();
 	network.printOutput();
 
